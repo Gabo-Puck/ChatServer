@@ -6,14 +6,19 @@ import com.azureproject.chatserver.ServerHandler;
 
 public class InMemoryClient {
     public static ConcurrentHashMap<Integer, ClientIO> clients = new ConcurrentHashMap<>();
+    public static int userCount = 0;
+
+    public static void seeInMemory() {
+        System.out.println(clients);
+    }
 
     public static void addClient(int id, ClientIO clientResources) {
-        ServerHandler.userCount++;
+        InMemoryClient.userCount++;
         clients.put(id, clientResources);
     }
 
-    public static void removeCLient(int id) {
-        ServerHandler.userCount--;
+    public static void removeCLient(Integer id) {
+        InMemoryClient.userCount--;
         clients.remove(id);
     }
 

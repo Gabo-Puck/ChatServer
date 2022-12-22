@@ -9,6 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.azureproject.client.ClientHandler;
+import com.azureproject.servicesgui.LabeledPrinter;
 import com.azureproject.servicesgui.ListPrinter;
 import com.azureproject.servicesgui.ListRemover;
 
@@ -18,8 +19,9 @@ public class ServerHandler extends Task<Void> {
 
     PrimaryController pc;
     public static BlockingQueue<String> queuePrintUserList = new LinkedBlockingQueue<>();
-    public static BlockingQueue<Integer> queueRemoveUserList = new LinkedBlockingQueue<>();
-    public static int userCount = 0;
+    public static BlockingQueue<String> queueRemoveUserList = new LinkedBlockingQueue<>();
+    public static BlockingQueue<String> queuePrintServerLogs = new LinkedBlockingQueue<>();
+    public static BlockingQueue<String> queuePrintCountUsers = new LinkedBlockingQueue<>();
 
     public ServerHandler(PrimaryController pc) {
         this.pc = pc;
@@ -33,10 +35,14 @@ public class ServerHandler extends Task<Void> {
         System.out.println("Connectedd");
         Socket client = null;
         ListPrinter<String> printConnectedUsers = new ListPrinter<String>(this.pc.userList, queuePrintUserList);
-        ListRemover<Integer, String> removeConnectedUsers = new ListRemover<Integer, String>(this.pc.userList,
+        ListRemover<String, String> removeConnectedUsers = new ListRemover<String, String>(this.pc.userList,
                 queueRemoveUserList);
+        ListPrinter<String> printServerLogs = new ListPrinter<String>(this.pc.serverLogs, queuePrintServerLogs);
+        LabeledPrinter<String> printCountUsers = new LabeledPrinter<>(this.pc.usersConnected, queuePrintCountUsers);
         new Thread(printConnectedUsers).start();
         new Thread(removeConnectedUsers).start();
+        new Thread(printServerLogs).start();
+        new Thread(printCountUsers).start();
         while (true) {
             try {
                 // Waiting for connections
@@ -46,7 +52,7 @@ public class ServerHandler extends Task<Void> {
                 // Get client resources
                 ObjectOutputStream dos = new ObjectOutputStream(client.getOutputStream());
                 dos.flush();
-                
+
                 ObjectInputStream dis = new ObjectInputStream(client.getInputStream());
 
                 // Create thread for handling user communication;

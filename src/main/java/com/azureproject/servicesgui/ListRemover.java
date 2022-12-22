@@ -29,7 +29,7 @@ public class ListRemover<T, V> extends GUIWorker<T> {
      */
     @Override
     public void modifyGUI(T idObject, Control target) {
-        ((ListView<T>) target).getItems().remove((int) idObject);
+        ((ListView<T>) target).getItems().remove(idObject);
     }
 
 }
