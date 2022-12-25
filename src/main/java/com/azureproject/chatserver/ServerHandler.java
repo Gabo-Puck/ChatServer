@@ -17,7 +17,7 @@ import javafx.concurrent.Task;
 
 public class ServerHandler extends Task<Void> {
 
-    PrimaryController pc;
+    public static PrimaryController pc;
     public static BlockingQueue<String> queuePrintUserList = new LinkedBlockingQueue<>();
     public static BlockingQueue<String> queueRemoveUserList = new LinkedBlockingQueue<>();
     public static BlockingQueue<String> queuePrintServerLogs = new LinkedBlockingQueue<>();
@@ -34,11 +34,14 @@ public class ServerHandler extends Task<Void> {
         ServerSocket server = new ServerSocket(76);
         System.out.println("Connectedd");
         Socket client = null;
-        ListPrinter<String> printConnectedUsers = new ListPrinter<String>(this.pc.userList, queuePrintUserList);
-        ListRemover<String, String> removeConnectedUsers = new ListRemover<String, String>(this.pc.userList,
+        ListPrinter<String> printConnectedUsers = new ListPrinter<String>(ServerHandler.pc.userList,
+                queuePrintUserList);
+        ListRemover<String, String> removeConnectedUsers = new ListRemover<String, String>(ServerHandler.pc.userList,
                 queueRemoveUserList);
-        ListPrinter<String> printServerLogs = new ListPrinter<String>(this.pc.serverLogs, queuePrintServerLogs);
-        LabeledPrinter<String> printCountUsers = new LabeledPrinter<>(this.pc.usersConnected, queuePrintCountUsers);
+        ListPrinter<String> printServerLogs = new ListPrinter<String>(ServerHandler.pc.serverLogs,
+                queuePrintServerLogs);
+        LabeledPrinter<String> printCountUsers = new LabeledPrinter<>(ServerHandler.pc.usersConnected,
+                queuePrintCountUsers);
         new Thread(printConnectedUsers).start();
         new Thread(removeConnectedUsers).start();
         new Thread(printServerLogs).start();

@@ -2,8 +2,6 @@ package com.azureproject.servicesgui;
 
 import java.util.concurrent.BlockingQueue;
 
-import com.azureproject.chatserver.GUIWorker;
-
 import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
 
@@ -29,6 +27,7 @@ public class ListRemover<T, V> extends GUIWorker<T> {
      */
     @Override
     public void modifyGUI(T idObject, Control target) {
+        ((ListView<T>) target).getItems().contains(idObject);
         ((ListView<T>) target).getItems().remove(idObject);
     }
 

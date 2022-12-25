@@ -1,5 +1,6 @@
 package com.azureproject.client;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.azureproject.chatserver.ServerHandler;
@@ -15,6 +16,14 @@ public class InMemoryClient {
     public static void addClient(int id, ClientIO clientResources) {
         InMemoryClient.userCount++;
         clients.put(id, clientResources);
+    }
+
+    public static ConcurrentHashMap<Integer, ClientIO> getClients() {
+        return clients;
+    }
+
+    public static void setClients(ConcurrentHashMap<Integer, ClientIO> clients) {
+        InMemoryClient.clients = clients;
     }
 
     public static void removeCLient(Integer id) {

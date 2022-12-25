@@ -1,4 +1,4 @@
-package com.azureproject.chatserver;
+package com.azureproject.servicesgui;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;

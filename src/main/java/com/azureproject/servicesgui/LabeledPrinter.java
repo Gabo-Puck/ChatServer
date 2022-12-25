@@ -2,8 +2,6 @@ package com.azureproject.servicesgui;
 
 import java.util.concurrent.BlockingQueue;
 
-import com.azureproject.chatserver.GUIWorker;
-
 import javafx.scene.control.Control;
 import javafx.scene.control.Labeled;
 
